@@ -1,9 +1,9 @@
-{
+  {
   "name": "rsocket-chrome-devtools",
   "version": "0.0.6",
   "description": "RSocket Chrome Devtools",
   "scripts": {
-    "clean": "rm -rf dist && rm -f dist.zip",
+    "clean": "rmdir /s /q dist & del dist.zip",
     "build": "webpack --config webpack.prod.js",
     "dist": "yarn clean && yarn build && zip -r dist.zip dist",
     "dev": "webpack -w --config webpack.dev.js"
@@ -52,7 +52,7 @@
     "react-inspector": "^5.1.0",
     "react-virtualized-auto-sizer": "1.0.6",
     "react-window": "^1.8.6",
-    "rsocket-core": "^0.0.27",
-    "rsocket-websocket-client": "^0.0.27"
+    "@rsocket/core": "^1.0.0-alpha.3",
+    "@rsocket/websocket-client": "^1.0.0-alpha.3"
   }
 }
