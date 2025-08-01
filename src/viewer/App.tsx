@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome';
 import {FixedSizeList, ListChildComponentProps} from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import classNames from 'classnames';
-import './App.scss';
+import './App.css';
 import {ObjectInspector} from 'react-inspector';
 import {deserializeFrame, deserializeFrameWithLength, ErrorCodes, Frame, FrameTypes,} from "@rsocket/core";
 import Protocol from "devtools-protocol";
@@ -75,7 +75,7 @@ function shortFrame(frame: Frame) {
             }
         }
     }
-    return `${name} [${flags.join(", ")}]`;
+    return `${frame.streamId} ${name} [${flags.join(", ")}]`;
 }
 
 const padded = (num: number, d: number) => num.toFixed(0).padStart(d, '0');
@@ -114,12 +114,12 @@ function base64ToArrayBuffer(base64: string) {
 }
 
 const FrameEntry = ({frame, selected, onClick, style}:
-                        {
-                            frame: WsFrameState,
-                            selected: boolean,
-                            onClick: MouseEventHandler,
-                            style: CSSProperties
-                        }) => {
+                    {
+                        frame: WsFrameState,
+                        selected: boolean,
+                        onClick: MouseEventHandler,
+                        style: CSSProperties
+                    }) => {
     const rsocketFrame = tryDeserializeFrame(frame.payload)
     const frameName = rsocketFrame
         ? <span className="name">{shortFrame(rsocketFrame)}</span>

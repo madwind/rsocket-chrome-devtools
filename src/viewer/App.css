@@ -1,0 +1,287 @@
+:root {
+  --base-text-color: #222;
+  --grey-text-color: #888;
+  --ascii-view-color: #444;
+  --main-background-color: #f8f8f8;
+  --outgoing-frame-color: #f6ffd0;
+  --incoming-frame-color: #ffe6ca;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --base-text-color: white;
+    --grey-text-color: #d6d6d6;
+    --ascii-view-color: #e0e0e0;
+    --main-background-color: #404040;
+    --outgoing-frame-color: #146500;
+    --incoming-frame-color: #ce5500;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --base-text-color: #222;
+    --grey-text-color: #888;
+    --ascii-view-color: #444;
+    --main-background-color: #f8f8f8;
+    --outgoing-frame-color: #f6ffd0;
+    --incoming-frame-color: #ffe6ca;
+  }
+}
+
+.App {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-size: 12px;
+  color: var(--base-text-color);
+  overflow: hidden;
+  background-color: var(--main-background-color);
+}
+
+.LeftPanel {
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+
+.LeftPanel .list-controls {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--main-background-color);
+  border-bottom: 1px solid #ddd;
+  padding: 8px 8px 4px 8px;
+}
+
+.LeftPanel .list-controls .list-filter {
+  flex: 1;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px 0 -2px 0;
+  position: relative;
+  top: -1px;
+}
+
+.LeftPanel .list-controls .list-filter::placeholder {
+  color: #aaa;
+}
+
+.LeftPanel .list-controls .list-button {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: var(--grey-text-color);
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.LeftPanel .list-controls .list-button:hover {
+  color: var(--base-text-color);
+}
+
+.LeftPanel .frame-list {
+  flex: 1;
+  padding: 0;
+}
+
+.LeftPanel .frame-list .frame {
+  white-space: nowrap;
+  padding: 0 4px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+
+.LeftPanel .frame-list .frame .fa {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.LeftPanel .frame-list .frame.frame-incoming {
+  background-color: var(--incoming-frame-color);
+}
+
+.LeftPanel .frame-list .frame.frame-incoming .fa {
+  color: rgb(168, 104, 19);
+}
+
+.LeftPanel .frame-list .frame.frame-outgoing {
+  background-color: var(--outgoing-frame-color);
+}
+
+.LeftPanel .frame-list .frame.frame-outgoing .fa {
+  color: rgb(98, 168, 19);
+}
+
+.LeftPanel .frame-list .frame .timestamp {
+  margin: 0 6px 0 2px;
+  color: var(--grey-text-color);
+  flex-shrink: 0;
+}
+
+.LeftPanel .frame-list .frame .name {
+  flex: 1 1;
+  min-width: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.LeftPanel .frame-list .frame .length {
+  flex-shrink: 0;
+  color: #aaa;
+}
+
+.LeftPanel .frame-list .frame.frame-selected {
+  background-color: rgb(42, 159, 255);
+}
+
+.LeftPanel .frame-list .frame.frame-selected.frame-incoming,
+.LeftPanel .frame-list .frame.frame-selected.frame-incoming .fa {
+  color: rgb(255, 230, 202);
+}
+
+.LeftPanel .frame-list .frame.frame-selected.frame-outgoing,
+.LeftPanel .frame-list .frame.frame-selected.frame-outgoing .fa {
+  color: rgb(246, 255, 208);
+}
+
+.LeftPanel .frame-list .frame.frame-selected .timestamp {
+  color: #ccc;
+}
+
+.LeftPanel .frame-list .frame.frame-selected .length {
+  color: var(--grey-text-color);
+}
+
+.PanelView .message {
+  display: block;
+  font-style: italic;
+  color: #888;
+  margin: 8px;
+}
+
+.FrameView {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.FrameView .tab-line {
+  flex-shrink: 0;
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  padding: 4px 8px 0 8px;
+}
+
+.FrameView .tab-line .tab-button {
+  cursor: pointer;
+  background-color: var(--main-background-color);
+  display: inline-block;
+  padding: 2px 12px;
+  margin: 0 4px;
+  border: 1px solid #ddd;
+  margin-bottom: -1px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.FrameView .tab-line .tab-button.active {
+  background-color: #fff;
+  border-bottom-color: #fff;
+}
+
+.FrameView .tab-pane {
+  flex: 1;
+  padding: 12px;
+  overflow: auto;
+}
+
+.FrameView .object-comment {
+  color: #008000;
+}
+
+.FrameView .error {
+  background-color: rgb(255, 240, 240);
+  border-top: 1px solid rgb(255, 214, 214);
+  border-bottom: 1px solid rgb(255, 214, 214);
+  color: #f00;
+  margin: 0 -12px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.FrameView .error .fa {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 6px;
+  margin-top: 1px;
+}
+
+.FrameView .error .error-message {
+  display: inline-block;
+  font-family: monospace;
+  white-space: pre;
+}
+
+.FrameView .TextViewer {
+  white-space: pre;
+  font-family: monospace;
+}
+
+.RSocketFrame {
+  font-family: 'Consolas', 'Courier', monospace;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.RSocketFrame div {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  width: min-content;
+}
+
+.RSocketFrame .line-numbers {
+  color: var(--grey-text-color);
+  margin-right: 8px;
+}
+
+.RSocketFrame .selected {
+  background-color: #ccc;
+}
+
+.RSocketFrame .hex-view {
+  white-space: pre;
+}
+
+.RSocketFrame .hex-view .padding {
+  user-select: none;
+}
+
+.RSocketFrame .hex-view span {
+  margin: 0 3px;
+}
+
+.RSocketFrame .hex-view span:nth-child(4) {
+  margin-right: 6px;
+}
+
+.RSocketFrame .hex-view span:nth-child(8) {
+  margin-right: 10px;
+}
+
+.RSocketFrame .hex-view span:nth-child(12) {
+  margin-right: 6px;
+}
+
+.RSocketFrame .ascii-view {
+  color: var(--ascii-view-color);
+  margin-left: 12px;
+}
