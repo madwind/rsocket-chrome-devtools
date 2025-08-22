@@ -17,6 +17,7 @@ import WebSocketFrameReceivedEvent = Protocol.Network.WebSocketFrameReceivedEven
 import WebSocketFrameSentEvent = Protocol.Network.WebSocketFrameSentEvent;
 import WebSocketFrame = Protocol.Network.WebSocketFrame;
 import WebSocketCreatedEvent = Protocol.Network.WebSocketCreatedEvent;
+import {extract} from "./GraphqlExtractor";
 
 window.Buffer = Buffer
 
@@ -74,6 +75,10 @@ function shortFrame(frame: Frame) {
                 flags.push(name);
             }
         }
+    }
+    const data = extract(frame);
+    if (data) {
+        return `${frame.streamId} ${data}`;
     }
     return `${frame.streamId} ${name} [${flags.join(", ")}]`;
 }
@@ -523,13 +528,18 @@ export const App = observer(({store}: { store: AppStateStore }) => {
 
     const Row = ({index, style}: ListChildComponentProps) => {
         const frame = filteredFrames[index];
-
+        let selected = false
+        if (active) {
+            const rsocketFrame = tryDeserializeFrame(frame.payload)
+            const activeRsocketFrame = tryDeserializeFrame(active.payload)
+            selected = rsocketFrame?.streamId === activeRsocketFrame?.streamId
+        }
         return (
             <FrameEntry
                 key={frame.id}
                 style={style}
                 frame={frame}
-                selected={frame.id === activeFrame}
+                selected={selected}
                 onClick={e => {
                     store.selectFrame(frame.id);
                     e.stopPropagation();
